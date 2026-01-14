@@ -23,7 +23,12 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                bat 'npx vercel --prod --yes --token=%VERCEL_TOKEN%'
+                  bat '''
+                  npm config set cache "%WORKSPACE%\\.npm-cache"
+                  npm config set prefix "%WORKSPACE%\\.npm-global"
+                  set PATH=%WORKSPACE%\\.npm-global;%PATH%
+                  npx vercel --prod --yes --token=%VERCEL_TOKEN%
+                  '''
             }
         }
     }
