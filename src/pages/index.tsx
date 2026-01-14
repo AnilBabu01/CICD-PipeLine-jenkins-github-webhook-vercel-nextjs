@@ -1,77 +1,129 @@
 import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Github, Cloud, GitBranch, Rocket, CheckCircle } from "lucide-react";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const geistSans = Geist({ subsets: ["latin"] });
+const geistMono = Geist_Mono({ subsets: ["latin"] });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const steps = [
+  {
+    title: "GitHub Push",
+    description:
+      "Developer pushes code to GitHub repository. This is the starting point of the CI/CD pipeline.",
+    icon: <Github className="h-6 w-6" />,
+  },
+  {
+    title: "GitHub Webhook",
+    description:
+      "GitHub webhook automatically notifies Jenkins when a push or pull request occurs.",
+    icon: <GitBranch className="h-6 w-6" />,
+  },
+  {
+    title: "Jenkins CI",
+    description:
+      "Jenkins pulls the code, runs build & tests using Jenkinsfile.",
+    icon: <CheckCircle className="h-6 w-6" />,
+  },
+  {
+    title: "Vercel Deployment",
+    description:
+      "On successful build, the app is deployed automatically to Vercel.",
+    icon: <Cloud className="h-6 w-6" />,
+  },
+];
 
 export default function Home() {
   return (
     <div
-      className={`${geistSans.className} ${geistMono.className} flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black`}
+      className={`${geistSans.className} ${geistMono.className} min-h-screen bg-gradient-to-br from-zinc-50 to-zinc-200 dark:from-black dark:to-zinc-900`}
     >
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            Implement CICD Pipeline with githu webhook jenkinsfile vercel AkAsh Hello yrr Nothing bro
+      <main className="mx-auto max-w-6xl px-6 py-20">
+        {/* Header */}
+        <section className="mb-20 text-center">
+          <h1 className="text-4xl font-bold tracking-tight text-zinc-900 dark:text-white md:text-5xl">
+            CI/CD Pipeline with GitHub, Jenkins & Vercel
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "} kjsdhfdsjnf 
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="mt-4 text-lg text-zinc-600 dark:text-zinc-400">
+            Fully automated deployment pipeline implemented by <b>Anil Babu</b>
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs/pages/getting-started?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+        </section>
+
+        {/* Pipeline Flow */}
+        <section className="grid gap-8 md:grid-cols-4">
+          {steps.map((step, index) => (
+            <div
+              key={index}
+              className="rounded-2xl bg-white p-6 shadow-lg transition hover:-translate-y-1 hover:shadow-xl dark:bg-zinc-900"
+            >
+              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-black text-white dark:bg-white dark:text-black">
+                {step.icon}
+              </div>
+              <h3 className="text-xl font-semibold text-zinc-900 dark:text-white">
+                {step.title}
+              </h3>
+              <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+                {step.description}
+              </p>
+            </div>
+          ))}
+        </section>
+
+        {/* Jenkinsfile Preview */}
+        <section className="mt-24">
+          <h2 className="mb-6 text-2xl font-semibold text-zinc-900 dark:text-white">
+            Sample Jenkinsfile
+          </h2>
+          <pre className="overflow-x-auto rounded-2xl bg-zinc-900 p-6 text-sm text-zinc-100">
+            {`pipeline {
+    agent any
+
+    environment {
+        VERCEL_TOKEN = credentials('vercel_token')
+    }
+
+    stages {
+        stage('Install') {
+            steps {
+                bat 'npm install'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Skipping tests - no test script found'
+            }
+        }
+        stage('Build') {
+            steps {
+                bat 'npm run build'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                bat '''
+                npm config set cache "%WORKSPACE%\.npm-cache"
+                npm config set prefix "%WORKSPACE%\.npm-global"
+                set PATH=%WORKSPACE%\.npm-global;%PATH%
+                npx vercel --prod --yes --token=%VERCEL_TOKEN%
+                '''
+            }
+        }
+    }
+}
+    }
+    stage('Build') {
+      steps {
+        sh 'npm run build'
+      }
+    }
+    stage('Deploy') {
+      steps {
+        sh 'vercel --prod --yes'
+      }
+    }
+  }
+}`}
+          </pre>
+        </section>
       </main>
     </div>
   );
